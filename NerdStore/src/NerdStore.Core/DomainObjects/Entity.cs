@@ -1,4 +1,6 @@
-﻿namespace NerdStore.Core.DomainObjects;
+﻿using System.Net.Http.Headers;
+
+namespace NerdStore.Core.DomainObjects;
 
 public abstract class Entity
 {
@@ -43,4 +45,6 @@ public abstract class Entity
     public static bool operator !=(Entity a, Entity b) => !(a == b);
 
     public override string ToString() => $"{GetType().Name} [Id={Id}]";
+
+    public virtual void Validate() { }
 }
