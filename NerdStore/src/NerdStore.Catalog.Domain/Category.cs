@@ -13,7 +13,15 @@ public class Category : Entity
     {
         Name = name;
         Code = code;
+
+        Validate();
     }
 
     public override string ToString() => $"{Name} - {Code}";
+
+    public override void Validate()
+    {
+        Validations.IfEmpty(Name, "The category name cannot be empty");
+        Validations.IfEqual(0, Code, "The category code cannot be zero");
+    }
 }

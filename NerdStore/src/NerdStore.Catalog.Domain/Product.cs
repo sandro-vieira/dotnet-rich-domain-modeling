@@ -34,6 +34,8 @@ public class Product : Entity, IAggregateRoot
         CategoryId = categoryId;
         CreatedAt = createdAt;
         Image = image;
+
+        Validate();
     }
 
     public void Activate() => Active = true;
@@ -46,7 +48,11 @@ public class Product : Entity, IAggregateRoot
         CategoryId = category.Id;
     }
 
-    public void ChangeDescription(string description) => Description = description;
+    public void ChangeDescription(string description)
+    {
+        Validations.IfEmpty(description, "The product description cannot be empty");
+        Description = description;
+    }
 
     public void RemoveFromStock(int quantity)
     {
@@ -54,7 +60,8 @@ public class Product : Entity, IAggregateRoot
         {
             quantity *= -1;
         }
-
+        
+        Validations.IfFalse(HasStock(quantity), "Insufficient stock");
         StockQuantity -= quantity;
     }
 
@@ -62,8 +69,12 @@ public class Product : Entity, IAggregateRoot
 
     public bool HasStock(int quantity) => StockQuantity > quantity;
 
-    public void Validate()
+    public override void Validate()
     {
-        // Method intentionally left empty.
+        Validations.IfEmpty(Name, "The product name cannot be empty");
+        Validations.IfEmpty(Description, "The product description cannot be empty");
+        Validations.IfDifferent(CategoryId, Guid.Empty, "The categoryId cannot be empty");
+        Validations.MinOrEqual(Value, 0, "The product value cannot be less or equal to 0");
+        Validations.IfEmpty(Image, "The product image cannot be empty");
     }
 }
