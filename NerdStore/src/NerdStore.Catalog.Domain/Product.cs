@@ -1,4 +1,5 @@
-﻿using NerdStore.Core.DomainObjects;
+﻿using NerdStore.Catalog.Domain.ValueObjects;
+using NerdStore.Core.DomainObjects;
 
 namespace NerdStore.Catalog.Domain;
 
@@ -17,6 +18,7 @@ public class Product : Entity, IAggregateRoot
     /// </summary>
     public Guid CategoryId { get; private set; }
     public Category Category { get; private set; }
+    public Dimensions Dimensions { get; private set; }
 
     public Product(
         string name,
@@ -24,6 +26,7 @@ public class Product : Entity, IAggregateRoot
         bool active,
         decimal value,
         Guid categoryId,
+        Dimensions dimensions,
         DateTime createdAt,
         string image)
     {
@@ -32,6 +35,7 @@ public class Product : Entity, IAggregateRoot
         Active = active;
         Value = value;
         CategoryId = categoryId;
+        Dimensions = dimensions;
         CreatedAt = createdAt;
         Image = image;
 
