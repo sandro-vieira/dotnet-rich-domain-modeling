@@ -77,7 +77,7 @@ public class Product : Entity, IAggregateRoot
     {
         Validations.IfEmpty(Name, "The product name cannot be empty");
         Validations.IfEmpty(Description, "The product description cannot be empty");
-        Validations.IfDifferent(CategoryId, Guid.Empty, "The categoryId cannot be empty");
+        Validations.IfEqual(CategoryId, Guid.Empty, "The categoryId cannot be empty");
         Validations.MinOrEqual(Value, 0, "The product value cannot be less or equal to 0");
         Validations.IfEmpty(Image, "The product image cannot be empty");
     }

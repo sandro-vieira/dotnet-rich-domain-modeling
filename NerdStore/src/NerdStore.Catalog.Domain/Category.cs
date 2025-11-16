@@ -22,6 +22,6 @@ public class Category : Entity
     public override void Validate()
     {
         Validations.IfEmpty(Name, "The category name cannot be empty");
-        Validations.IfEqual(0, Code, "The category code cannot be zero");
+        Validations.MinOrEqual(Code, 0, "The code must be greater than zero");
     }
 }
