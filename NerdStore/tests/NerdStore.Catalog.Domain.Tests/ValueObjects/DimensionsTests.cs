@@ -18,7 +18,10 @@ public class DimensionsTests
         decimal depth,
         string message)
     {
+        //Arrage & Act
         var ex = Assert.Throws<DomainException>(() => new Dimensions(height, width, depth));
+
+        //Assert
         Assert.Equal(message, ex.Message);
     }
 }
