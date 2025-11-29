@@ -12,6 +12,7 @@ public class Product : Entity, IAggregateRoot
     public DateTime CreatedAt { get; private set; }
     public string Image { get; private set; }
     public int StockQuantity { get; private set; }
+    public int StockMinQuantity { get; private set; }
 
     /// <summary>
     /// Entity Framework
@@ -72,6 +73,12 @@ public class Product : Entity, IAggregateRoot
     public void ReplenishStock(int quantity) => StockQuantity += quantity;
 
     public bool HasStock(int quantity) => StockQuantity > quantity;
+
+    public void SetStockMinQuantity(int quantity)
+    {
+        Validations.MinOrEqual(quantity, 0, "The minimum stock quantity must be greater or equal to zero");
+        StockMinQuantity = quantity;
+    }
 
     public override void Validate()
     {
