@@ -58,7 +58,7 @@ public class Product : Entity, IAggregateRoot
         Description = description;
     }
 
-    public void RemoveFromStock(int quantity)
+    public void DeductStock(int quantity)
     {
         if (quantity < 0)
         {
@@ -69,7 +69,7 @@ public class Product : Entity, IAggregateRoot
         StockQuantity -= quantity;
     }
 
-    public void AddStock(int quantity) => StockQuantity += quantity;
+    public void ReplenishStock(int quantity) => StockQuantity += quantity;
 
     public bool HasStock(int quantity) => StockQuantity > quantity;
 
