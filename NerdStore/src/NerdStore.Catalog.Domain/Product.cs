@@ -8,7 +8,7 @@ public class Product : Entity, IAggregateRoot
     public string Name { get; private set; }
     public string Description { get; private set; }
     public bool Active { get; private set; }
-    public decimal Value { get; private set; }
+    public decimal Price { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public string Image { get; private set; }
     public int StockQuantity { get; private set; }
@@ -25,19 +25,17 @@ public class Product : Entity, IAggregateRoot
         string name,
         string description,
         bool active,
-        decimal value,
+        decimal price,
         Guid categoryId,
         Dimensions dimensions,
-        DateTime createdAt,
         string image)
     {
         Name = name;
         Description = description;
         Active = active;
-        Value = value;
+        Price = price;
         CategoryId = categoryId;
         Dimensions = dimensions;
-        CreatedAt = createdAt;
         Image = image;
 
         Validate();
@@ -48,7 +46,7 @@ public class Product : Entity, IAggregateRoot
     public void Deactivate() => Active = false;
 
     public void ChangeCategory(Category category)
-    { 
+    {
         Category = category;
         CategoryId = category.Id;
     }
@@ -65,7 +63,7 @@ public class Product : Entity, IAggregateRoot
         {
             quantity *= -1;
         }
-        
+
         Validations.IfFalse(HasStock(quantity), "Insufficient stock");
         StockQuantity -= quantity;
     }
@@ -85,7 +83,7 @@ public class Product : Entity, IAggregateRoot
         Validations.IfEmpty(Name, "The product name cannot be empty");
         Validations.IfEmpty(Description, "The product description cannot be empty");
         Validations.IfEqual(CategoryId, Guid.Empty, "The categoryId cannot be empty");
-        Validations.MinOrEqual(Value, 0, "The product value cannot be less or equal to 0");
+        Validations.MinOrEqual(Price, 0, "The product value cannot be less or equal to 0");
         Validations.IfEmpty(Image, "The product image cannot be empty");
     }
 }

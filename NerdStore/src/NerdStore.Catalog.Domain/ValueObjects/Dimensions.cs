@@ -4,11 +4,11 @@ namespace NerdStore.Catalog.Domain.ValueObjects;
 
 public record Dimensions
 {
-    public decimal Height { get; }
-    public decimal Width { get; }
-    public decimal Depth { get; }
+    public int Height { get; }
+    public int Width { get; }
+    public int Depth { get; }
 
-    public Dimensions(decimal height, decimal width, decimal depth)
+    public Dimensions(int height, int width, int depth)
     {
         Validations.MinOrEqual(height, 0, "Height must be greater than zero");
         Validations.MinOrEqual(width, 0, "Width must be greater than zero");
@@ -19,7 +19,7 @@ public record Dimensions
         Depth = depth;
     }
 
-    public decimal Volume() => Height * Width * Depth;
+    public int Volume() => Height * Width * Depth;
 
     public override string ToString() => $"HxWxD: {Height} x {Width} x {Depth}";
 }

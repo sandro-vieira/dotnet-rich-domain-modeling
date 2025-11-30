@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Headers;
-
-namespace NerdStore.Core.DomainObjects;
+﻿namespace NerdStore.Core.DomainObjects;
 
 public abstract class Entity
 {

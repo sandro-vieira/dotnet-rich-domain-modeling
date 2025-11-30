@@ -1,5 +1,4 @@
 ﻿using NerdStore.Catalog.Domain.Events;
-using NerdStore.Catalog.Domain.Interfaces;
 using NerdStore.Core.Bus;
 
 namespace NerdStore.Catalog.Domain;
@@ -12,9 +11,9 @@ public class StockService(
     private readonly IProductRepository _productRepository = productRepository;
     private readonly IMediatorHandler _bus = bus;
 
-    public async Task<bool> DeductStockAsync(Guid productId, int quantity)
+    public async Task<bool> DeductStockAsync(Guid productId, int quantity, CancellationToken cancellationToken)
     {
-        var product = await _productRepository.GetByIdAsync(productId);
+        var product = await _productRepository.GetByIdAsync(productId, cancellationToken);
         if (product is null)
         {
             return false;
@@ -33,12 +32,12 @@ public class StockService(
         }
 
         _productRepository.Update(product);
-        return await _productRepository.UnitOfWork.CommitAsync();
+        return await _productRepository.UnitOfWork.CommitAsync(cancellationToken);
     }
 
-    public async Task<bool> ReplenishStockAsync(Guid productId, int quantity)
+    public async Task<bool> ReplenishStockAsync(Guid productId, int quantity, CancellationToken cancellationToken)
     {
-        var product = await _productRepository.GetByIdAsync(productId);
+        var product = await _productRepository.GetByIdAsync(productId, cancellationToken);
         if (product is null)
         {
             return false;
@@ -46,20 +45,22 @@ public class StockService(
     
         product.ReplenishStock(quantity);
         _productRepository.Update(product);
-        return await _productRepository.UnitOfWork.CommitAsync();
+        return await _productRepository.UnitOfWork.CommitAsync(cancellationToken);
     }
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!_disposed)
+        if (_disposed)
         {
-            if (disposing)
-            {
-                _productRepository.Dispose();
-            }
-
-            _disposed = true;
+            return;
         }
+        
+        if (disposing)
+        {
+            _productRepository.Dispose();
+        }
+
+        _disposed = true;
     }
 
     public void Dispose()
