@@ -24,7 +24,7 @@ public class CatalogContext : DbContext, IUnitOfWork
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogContext).Assembly);
     }
 
-    public async Task<bool> CommitAsync()
+    public async Task<bool> CommitAsync(CancellationToken cancellationToken)
     {
         foreach (var entry in ChangeTracker.Entries().Where(entry => entry.Entity.GetType().GetProperty("CreatedAt") != null))
         {
@@ -38,6 +38,6 @@ public class CatalogContext : DbContext, IUnitOfWork
             }
         }
 
-        return await base.SaveChangesAsync() > 0;
+        return await base.SaveChangesAsync(cancellationToken) > 0;
     }
 }

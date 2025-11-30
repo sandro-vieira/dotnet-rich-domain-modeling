@@ -1,5 +1,4 @@
-﻿using NerdStore.Catalog.Domain.Interfaces;
-using NerdStore.SimpleMediator.Interfaces;
+﻿using NerdStore.SimpleMediator.Interfaces;
 
 namespace NerdStore.Catalog.Domain.Events;
 
@@ -9,7 +8,7 @@ public class ProductEventHandler(IProductRepository productRepository)
     private readonly IProductRepository _productRepository = productRepository;
     public async Task Handle(ProductLowerStockEvent notification, CancellationToken cancellationToken)
     {
-        var product = await _productRepository.GetByIdAsync(notification.AggregateId);
+        var product = await _productRepository.GetByIdAsync(notification.AggregateId, cancellationToken);
 
         if (product is not null)
         {

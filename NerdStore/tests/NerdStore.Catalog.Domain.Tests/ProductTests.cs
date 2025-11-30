@@ -31,7 +31,6 @@ public class ProductTests
             value,
             categoryId,
             new Dimensions(1, 1, 1),
-            DateTime.Now,
             image));
 
         //Assert

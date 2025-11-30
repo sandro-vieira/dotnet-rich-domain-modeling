@@ -13,9 +13,9 @@ public class DimensionsTests
     [InlineData(1, 1, 0, "Depth must be greater than zero")]
     [InlineData(1, 1, -1, "Depth must be greater than zero")]
     public void Dimensions_ShouldThrowException_WhenInvalid(
-        decimal height,
-        decimal width,
-        decimal depth,
+        int height,
+        int width,
+        int depth,
         string message)
     {
         //Arrage & Act
